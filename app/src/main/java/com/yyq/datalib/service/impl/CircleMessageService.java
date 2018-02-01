@@ -7,6 +7,7 @@ import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.CircleMessage;
 import com.yyq.datalib.javaBeans.Comment;
 import com.yyq.datalib.javaBeans.MakeDate;
+import com.yyq.datalib.javaBeans.MakeDateInf;
 import com.yyq.datalib.javaBeans.MyUser;
 import com.yyq.datalib.models.CircleMessageModel;
 import com.yyq.datalib.models.MakeDateModel;
@@ -349,20 +350,67 @@ public class CircleMessageService implements ICircleMessageService {
 
             }
 
+    //点赞喜欢
     @Override
-    public void UpdateMakeDate(Context context, boolean isLike, boolean apply,String objectId) {
-        BmobQuery<MakeDate> bmobQuery = new BmobQuery<MakeDate>();
-        bmobQuery.getObject(objectId, new QueryListener<MakeDate>() {
+    public void UpdateMakeDate1(final Context context, String objectId, final int like) {
+        MakeDateInf m = new MakeDateInf();
+        m.setMakeDateId(objectId);
+        m.setLike(true);
+        m.save(new SaveListener<String>() {
+
             @Override
-            public void done(MakeDate object,BmobException e) {
+            public void done(String objectId, BmobException e) {
                 if(e==null){
-
+                    ToastUtil.showToast(context,"喜欢：" + objectId);
+                    //同时将约球表里的喜欢数量加一
+                    MakeDate makeDate = new MakeDate();
+                    makeDate.setLike(like+1);
+                    makeDate.update(objectId, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Log.i("MyTag" ,"更新成功");
+                            }else{
+                                Log.i("MyTag","更新失败："+e.getMessage()+","+e.getErrorCode());
+                            }
+                        }
+                    });
                 }else{
-
+                    Log.i("MyTag","失败："+e.getMessage()+","+e.getErrorCode());
                 }
             }
         });
+    }
 
+    //报名
+    @Override
+    public void UpdateMakeDate2(final Context context, String objectId, final int apply) {
+        MakeDateInf m = new MakeDateInf();
+        m.setMakeDateId(objectId);
+        m.setApply(true);
+        m.save(new SaveListener<String>() {
+            @Override
+            public void done(String objectId, BmobException e) {
+                if(e==null){
+                    ToastUtil.showToast(context,"喜欢：" + objectId);
+                    //同时将约球表里的喜欢数量加一
+                    MakeDate makeDate = new MakeDate();
+                    makeDate.setLike(apply+1);
+                    makeDate.update(objectId, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if(e==null){
+                                Log.i("MyTag" ,"更新成功");
+                            }else{
+                                Log.i("MyTag","更新失败："+e.getMessage()+","+e.getErrorCode());
+                            }
+                        }
+                    });
+                }else{
+                    Log.i("MyTag","失败："+e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
     }
 
     //TODO:获取一条约球

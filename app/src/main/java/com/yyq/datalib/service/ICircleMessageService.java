@@ -31,5 +31,9 @@ public interface ICircleMessageService {
     //获取一条约球详情
     void getOneMakeDateDetail(Context context,String objectId);
 
-    void UpdateMakeDate(Context context,boolean isLike,boolean apply,String objectId);
+    //点赞喜欢,现有的喜欢的数量
+    void UpdateMakeDate1(Context context,String objectId,int like);
+
+    //报名，现有的报名数量
+    void UpdateMakeDate2(Context context,String objectId,int aplly);
 }

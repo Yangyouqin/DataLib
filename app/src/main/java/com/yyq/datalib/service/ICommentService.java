@@ -12,7 +12,7 @@ import com.yyq.datalib.javaBeans.Comment;
 public interface ICommentService {
 
     //TODO:获取评论，type 1,2,3  1表示场地评论，2表示培训，3表示圈子，4表示比赛
-    void getComment(Context context, String id, int type);
+    void getComment(Context context, String id, int type,int skip);
 
     //TODO:添加圈子动态评论
     void insertComment(Context context, Comment comment);

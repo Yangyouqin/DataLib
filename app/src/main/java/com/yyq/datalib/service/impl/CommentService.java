@@ -33,7 +33,7 @@ public class CommentService implements ICommentService {
 
     //TODO:获取评论，type 1,2,3  1表示场地评论，2表示培训，3表示圈子，4表示比赛
     @Override
-    public void getComment(final Context context, String id,int type) {
+    public void getComment(final Context context, String id,int type,int skip) {
         BmobQuery<Comment> query = new BmobQuery<Comment>();
         if(type==1){
             query.addWhereEqualTo("placeId",id);
@@ -47,7 +47,8 @@ public class CommentService implements ICommentService {
         else if(type==4){
             query.addWhereEqualTo("matchId",id);
         }
-        query.setLimit(5);
+        query.setLimit(8);
+        query.setSkip(skip);
         //执行查询方法
         query.findObjects(new FindListener<Comment>() {
             @Override
