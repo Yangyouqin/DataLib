@@ -34,6 +34,6 @@ public interface ICircleMessageService {
     //点赞喜欢,现有的喜欢的数量
     void UpdateMakeDate1(Context context,String objectId,int like);
 
-    //报名，现有的报名数量
+    //报名，当前的报名数量，前端用apply和personNum判断一下，如果apply已经等于personNum了，则提示人数已满
     void UpdateMakeDate2(Context context,String objectId,int aplly);
 }

@@ -392,7 +392,7 @@ public class CircleMessageService implements ICircleMessageService {
             @Override
             public void done(String objectId, BmobException e) {
                 if(e==null){
-                    ToastUtil.showToast(context,"喜欢：" + objectId);
+                    ToastUtil.showToast(context,"报名：" + objectId);
                     //同时将约球表里的喜欢数量加一
                     MakeDate makeDate = new MakeDate();
                     makeDate.setLike(apply+1);

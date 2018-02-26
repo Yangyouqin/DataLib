@@ -200,7 +200,8 @@ public class MainActivity extends AppCompatActivity {
 //                Log.i("MyTag",object.toString());
 //            }
 //        });
-        insertmakedate();
+       // insertmakedate();
+
     }
 
     //TODO:插入约球

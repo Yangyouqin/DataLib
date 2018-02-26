@@ -8,6 +8,7 @@ import cn.bmob.v3.BmobObject;
  */
 
 public class OrdersPlace extends BmobObject {
+
     private String userId;
 
     private String placeId;
