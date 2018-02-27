@@ -7,11 +7,6 @@ import cn.bmob.v3.BmobObject;
  */
 
 public class Comment extends BmobObject {
-    private String trainId;
-
-    private String placeId;
-
-    private String matchId;
 
     private MyUser user;
 
@@ -21,33 +16,13 @@ public class Comment extends BmobObject {
 
     private boolean like;
 
-    private String circleMessageId;
+    //场地/培训/比赛/圈子的id
+    private String typeId;
 
-    public String getTrainId() {
-        return trainId;
-    }
+    // 0  表示场地，1 表示培训， 2 表示比赛， 3 表示圈子
+    private int type;
 
-    public void setTrainId(String trainId) {
-        this.trainId = trainId;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
-    }
-
-
-
-    public String getMatchId() {
-        return matchId;
-    }
-
-    public void setMatchId(String matchId) {
-        this.matchId = matchId;
-    }
+    private String orderId;
 
     public MyUser getUser() {
         return user;
@@ -81,42 +56,30 @@ public class Comment extends BmobObject {
         this.like = like;
     }
 
-    public String getCircleMessageId() {
-        return circleMessageId;
-    }
-
-    public void setCircleMessageId(String circleMessageId) {
-        this.circleMessageId = circleMessageId;
-    }
-
     public Comment() {
     }
 
-    //圈子动态的构造方法
-    public Comment(String content, boolean like, String circleMessageId) {
-        this.content = content;
-        this.like = like;
-        this.circleMessageId = circleMessageId;
-    }
-    //培训，场地，比赛的评论的构造，需要再添加一个id，如果是place的评论就setPlaceId
-    public Comment(String content, Double stars, boolean like) {
-        this.content = content;
-        this.stars = stars;
-        this.like = like;
+    public String getTypeId() {
+        return typeId;
     }
 
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "trainId='" + trainId + '\'' +
-                ", placeId='" + placeId + '\'' +
-                ", matchId='" + matchId + '\'' +
-                ", user=" + user +
-                ", content='" + content + '\'' +
-                ", stars=" + stars +
-                ", like=" + like +
-                ", circleMessageId='" + circleMessageId + '\'' +
-                '}';
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

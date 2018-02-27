@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.Comment;
 import com.yyq.datalib.javaBeans.MyUser;
+import com.yyq.datalib.javaBeans.OrdersPlace;
 import com.yyq.datalib.service.ICommentService;
 
 import java.util.List;
@@ -35,18 +36,7 @@ public class CommentService implements ICommentService {
     @Override
     public void getComment(final Context context, String id,int type,int skip) {
         BmobQuery<Comment> query = new BmobQuery<Comment>();
-        if(type==1){
-            query.addWhereEqualTo("placeId",id);
-        }
-        else if(type==2){
-            query.addWhereEqualTo("trainId",id);
-        }
-        else if(type==3){
-            query.addWhereEqualTo("messageId",id);
-        }
-        else if(type==4){
-            query.addWhereEqualTo("matchId",id);
-        }
+        query.addWhereEqualTo("typeId",id).addWhereEqualTo("type",type);
         query.setLimit(8);
         query.setSkip(skip);
         //执行查询方法
@@ -68,9 +58,36 @@ public class CommentService implements ICommentService {
 
 
     @Override
-    public void insertComment(final Context context, Comment comment) {
+    public void insertComment1(final Context context, final Comment comment, final OrdersPlace ordersPlace) {
         MyUser user = MyUser.getCurrentUser(MyUser.class);
         comment.setUser(user);
+        comment.setOrderId(ordersPlace.getObjectId());
+        comment.save(new SaveListener<String>() {
+            @Override
+            public void done(String objectId, BmobException e) {
+                if(e==null){
+                    ToastUtil.showToast(context,"添加评论成功！");
+                    Log.i("MyTag","添加评论成功！");
+                    //同时更新订单的评价状态
+                    OrdersPlaceService ordersPlaceService = new OrdersPlaceService();
+                    ordersPlaceService.updaterOrder(context,ordersPlace,4);
+                    if(mOnAddCommentListener!=null){
+                        mOnAddCommentListener.isApply(1);
+                    }
+                }else{
+                    ToastUtil.showToast(context,"添加评论失败！");
+                    Log.i("MyTag","添加失败"+e.getErrorCode()+e.getMessage());
+                    mOnAddCommentListener.isApply(e.getErrorCode());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void insertComment2(final Context context, final Comment comment) {
+        MyUser user = MyUser.getCurrentUser(MyUser.class);
+        comment.setUser(user);
+        comment.setType(3);
         comment.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
@@ -88,7 +105,6 @@ public class CommentService implements ICommentService {
             }
         });
     }
-
     @Override
     public void deleteComment(Context context, String commentId) {
         Comment comment = new Comment();

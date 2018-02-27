@@ -209,4 +209,18 @@ public class DealDate {
         }
         return list;
     }
+    public Double caculateProfit(double payment){
+        if(payment<50){
+            return 5.00;
+        }
+        else if(payment<=100){
+            return payment*0.9;
+        }
+        else if(payment<=500){
+            return payment * 0.8;
+        }
+        else{
+            return 50.00;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import cn.bmob.v3.BmobObject;
 
 /**
  * Created by yangyouqin on 2018/2/1.
+ * 约球的申请实体类
  */
 
 public class MakeDateInf extends BmobObject{
