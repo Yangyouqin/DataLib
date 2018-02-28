@@ -8,7 +8,7 @@ import com.yyq.datalib.javaBeans.OrdersPlace;
  * Created by yangyouqin on 2018/2/26.
  */
 
-public interface IOdersPlcaeService {
+public interface IOrdersPlcaeService {
 
     //添加订单，判断是否可以下单
     void addOrder (Context context, OrdersPlace ordersPlace);

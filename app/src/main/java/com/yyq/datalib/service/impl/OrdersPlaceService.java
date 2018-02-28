@@ -6,7 +6,7 @@ import android.util.Log;
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.OrdersPlace;
 import com.yyq.datalib.query.DealDate;
-import com.yyq.datalib.service.IOdersPlcaeService;
+import com.yyq.datalib.service.IOrdersPlcaeService;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * Created by yangyouqin on 2018/2/26.
  */
 
-public class OrdersPlaceService implements IOdersPlcaeService {
+public class OrdersPlaceService implements IOrdersPlcaeService {
     @Override
     public void addOrder(final Context context, final OrdersPlace ordersPlace) {
         //先查询一下同一时间段的场地是否已预定
@@ -103,8 +103,26 @@ public class OrdersPlaceService implements IOdersPlcaeService {
     }
 
     @Override
-    public void getPlaceOrders(Context context, int skip) {
+    public void getPlaceOrders(final Context context, int skip) {
+        BmobQuery<OrdersPlace> query = new BmobQuery<OrdersPlace>();
+//查询playerName叫“比目”的数据
+        query.addWhereEqualTo("playerName", "比目");
+//返回50条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(50);
+//执行查询方法
+        query.findObjects(new FindListener<OrdersPlace>() {
+            @Override
+            public void done(List<OrdersPlace> object, BmobException e) {
+                if(e==null){
+                    ToastUtil.showToast(context,"查询成功：共"+object.size()+"条数据。");
+                    for (OrdersPlace gameScore : object) {
 
+                    }
+                }else{
+                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                }
+            }
+        });
     }
 
     @Override
