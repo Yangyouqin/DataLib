@@ -24,6 +24,7 @@ import cn.bmob.v3.listener.QueryListener;
 
 /**
  * Created by yangyouqin on 2018/1/4.
+ * 首页点击条图标进入的接口
  */
 
 public class AllListService implements IAllListService {

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.MyUser;
 import com.yyq.datalib.javaBeans.Place;
+import com.yyq.datalib.service.IPlaceService;
 
 import java.util.List;
 

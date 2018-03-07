@@ -2,6 +2,8 @@ package com.yyq.datalib.service.impl;
 
 import android.util.Log;
 
+import com.yyq.datalib.service.IHotSearchService;
+
 import java.util.ArrayList;
 import java.util.List;
 
