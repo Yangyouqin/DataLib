@@ -28,4 +28,6 @@ public interface IMyUserService {
 
     //根据id获取
     void getById(String id);
+
+    void phoneIsExistence(Context context, String phoneNum);
 }

@@ -6,7 +6,6 @@ import android.util.Log;
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.MyUser;
 import com.yyq.datalib.javaBeans.Place;
-import com.yyq.datalib.service.IPlaceService;
 
 import java.util.List;
 
@@ -92,15 +91,18 @@ public class PlaceService implements IPlaceService {
 
     //TODO:添加场地信息
     @Override
-    public void insertPlace(final Context context, final Place places, final String[] placeImgsUrl) {
-
-        BmobFile.uploadBatch(placeImgsUrl, new UploadBatchListener() {
+    public void insertPlace(final Context context, final Place places, List<String>placeImgsUrl) {
+        final String[] filePaths = new String[placeImgsUrl.size()];
+        for (int i = 0; i <placeImgsUrl.size(); i++) {
+            filePaths[i] = placeImgsUrl.get(i);
+        }
+        BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
 
             @Override
             public void onSuccess(List<BmobFile> files, List<String> urls) {
                 //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
                 //2、urls-上传文件的完整url地址
-                if(urls.size()==placeImgsUrl.length){//如果数量相等，则代表文件全部上传完成
+                if(urls.size()==filePaths.length){//如果数量相等，则代表文件全部上传完成
                     //do something
                     places.setPlaceImg1(files);
                     places.setUser(MyUser.getCurrentUser(MyUser.class));

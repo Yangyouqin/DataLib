@@ -202,6 +202,20 @@ public class MainActivity extends AppCompatActivity {
 //        });
        // insertmakedate();
 
+        java.text.SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+
+        BmobDate date1 = new BmobDate(new Date());
+        Date date2 = new Date();
+//        int days = (int) ((date2.getTime() - date1.getDate().getTime()) / (1000*3600*24));
+        String s = date1.getDate();
+        int days = 0;
+        try {
+            Date date =  formatter.parse(s);
+            days = (int) ((date2.getTime() - date.getTime()) / (1000*3600*24));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int x = days;
     }
 
     //TODO:插入约球

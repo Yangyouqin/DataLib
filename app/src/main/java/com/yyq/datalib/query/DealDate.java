@@ -5,6 +5,7 @@ import com.yyq.datalib.javaBeans.Comment;
 import com.yyq.datalib.javaBeans.MakeDate;
 import com.yyq.datalib.javaBeans.Match;
 import com.yyq.datalib.javaBeans.MyUser;
+import com.yyq.datalib.javaBeans.Orders;
 import com.yyq.datalib.javaBeans.Place;
 import com.yyq.datalib.javaBeans.Trains;
 import com.yyq.datalib.models.CircleMessageModel;
@@ -13,6 +14,7 @@ import com.yyq.datalib.models.MatchModel;
 import com.yyq.datalib.models.SortModel;
 import com.yyq.datalib.models.TrainModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 
 /**
@@ -209,18 +212,50 @@ public class DealDate {
         }
         return list;
     }
-    public Double caculateProfit(double payment){
+    public Double caculateCharge1(double payment){
         if(payment<50){
             return 5.00;
         }
         else if(payment<=100){
-            return payment*0.9;
+            return payment*0.1;
         }
         else if(payment<=500){
-            return payment * 0.8;
+            return payment * 0.2;
         }
         else{
             return 50.00;
+        }
+    }
+    public double caculateCharge2(Orders orders){
+       Date currentDate = new Date();
+        BmobDate startTime = orders.getStartTime();
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+        String s = startTime.getDate();
+        //当前时间与订单开始时间相距几个小时
+        double hours = 0;
+        try {
+            Date date =  formatter.parse(s);
+            hours = (double) ((currentDate.getTime() - date.getTime()) / (1000*3600));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //取消，退款0元，按正常订单，计算平台和商家的利益
+        if(hours<2.0){
+            return orders.getPayment();
+        }
+        else if(hours<6.0){
+            //取消订单，扣去的费用，扣取30%
+            double returnProfit = orders.getPayment()*0.3;
+            return returnProfit;
+        }
+        else if(hours<12.0){
+            //取消订单，扣去的费用，扣取5%
+            double returnProfit = orders.getPayment()*0.05;
+            return returnProfit;
+        }
+        //不扣费用，用户获得全额退款
+        else{
+            return 0;
         }
     }
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.yyq.datalib.javaBeans.HomePage;
-import com.yyq.datalib.service.IHomePageService;
 
 import java.util.ArrayList;
 import java.util.List;

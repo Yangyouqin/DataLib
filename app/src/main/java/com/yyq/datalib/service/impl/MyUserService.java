@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.MyUser;
-import com.yyq.datalib.service.IMyUserService;
 
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class MyUserService implements IMyUserService {
     private OnGetRegsterStatusListener mOnGetRegsterStatusListener;
     private OnModifyUserNameListener mOnModifyUserNameListener;
     private OnModifyUserHeadListener mOnModifyUserHeadListener;
+    private OnCheckPhoneNumListener mOnCheckPhoneNumListener;
 
     //用户注册
     @Override
@@ -140,7 +140,6 @@ public class MyUserService implements IMyUserService {
         });
     }
 
-    //type 0为手机密码登陆，1  为手机验证码登陆
     @Override
     public void loginByPhone(String phoneNum, String password, Integer type, final Context context) {
         if (type == 0) {
@@ -179,11 +178,13 @@ public class MyUserService implements IMyUserService {
         }
     }
 
+
     @Override
     public void getById(String id) {
 
     }
 
+    @Override
     public void phoneIsExistence(final Context context, String phoneNum) {
         BmobQuery<MyUser> query = new BmobQuery<MyUser>();
         query.addWhereEqualTo("mobilePhoneNumber",phoneNum);
@@ -192,12 +193,15 @@ public class MyUserService implements IMyUserService {
             public void done(List<MyUser> object, BmobException e) {
                 if(e==null){
                     if(object.size()!=0){
-                        Log.i("MyTag","成功：存在");
+                        if(mOnCheckPhoneNumListener!=null){
+                            mOnCheckPhoneNumListener.isChecked(true);
+                        }
                     }
                     else {
-                        Log.i("MyTag","失败：用户不存在");
+                        mOnCheckPhoneNumListener.isChecked(false);
                     }
                 }else{
+                    mOnCheckPhoneNumListener.isChecked(false);
                     Log.i("MyTag","失败："+e.getMessage()+","+e.getErrorCode());
                     if (e.getErrorCode() == 9016) {
                         ToastUtil.showToast(context, "网络连接失败，请检查网络状况");
@@ -206,6 +210,7 @@ public class MyUserService implements IMyUserService {
             }
         });
     }
+
     //第三部：设置外部监听事件
     public void setOnGetMyUserDataListener(OnGetMyUserDataListener onGetMyUserDataListener) {
         mOnGetMyUserDataListener = onGetMyUserDataListener;
@@ -246,6 +251,14 @@ public class MyUserService implements IMyUserService {
     public interface OnModifyUserHeadListener {
         //修改头像
         void isModify(int m);
+    }
+
+    public void setOnCheckPhoneNumListener(OnCheckPhoneNumListener onCheckPhoneNumListener) {
+        mOnCheckPhoneNumListener = onCheckPhoneNumListener;
+    }
+    public interface OnCheckPhoneNumListener {
+        //修改头像
+        void isChecked(boolean c);
     }
 
 }

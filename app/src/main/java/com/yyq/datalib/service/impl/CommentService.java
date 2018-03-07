@@ -6,8 +6,7 @@ import android.util.Log;
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.Comment;
 import com.yyq.datalib.javaBeans.MyUser;
-import com.yyq.datalib.javaBeans.OrdersPlace;
-import com.yyq.datalib.service.ICommentService;
+import com.yyq.datalib.javaBeans.Orders;
 
 import java.util.List;
 
@@ -58,10 +57,10 @@ public class CommentService implements ICommentService {
 
 
     @Override
-    public void insertComment1(final Context context, final Comment comment, final OrdersPlace ordersPlace) {
+    public void insertComment1(final Context context, final Comment comment, final Orders orders) {
         MyUser user = MyUser.getCurrentUser(MyUser.class);
         comment.setUser(user);
-        comment.setOrderId(ordersPlace.getObjectId());
+        comment.setOrderId(orders.getObjectId());
         comment.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
@@ -69,8 +68,8 @@ public class CommentService implements ICommentService {
                     ToastUtil.showToast(context,"添加评论成功！");
                     Log.i("MyTag","添加评论成功！");
                     //同时更新订单的评价状态
-                    OrdersPlaceService ordersPlaceService = new OrdersPlaceService();
-                    ordersPlaceService.updaterOrder(context,ordersPlace,4);
+                    OrdersService ordersService = new OrdersService();
+                    ordersService.updateOrder(context, orders,4);
                     if(mOnAddCommentListener!=null){
                         mOnAddCommentListener.isApply(1);
                     }

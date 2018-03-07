@@ -7,7 +7,7 @@ import cn.bmob.v3.BmobObject;
  * 约球的申请实体类
  */
 
-public class MakeDateInf extends BmobObject{
+public class MakeDateInf extends BmobObject {
 
     //申请约球的一个动态id
     private String objectId;

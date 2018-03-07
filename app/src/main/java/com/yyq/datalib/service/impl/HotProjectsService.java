@@ -3,7 +3,6 @@ package com.yyq.datalib.service.impl;
 import android.util.Log;
 
 import com.yyq.datalib.javaBeans.HotProject;
-import com.yyq.datalib.service.IHotProjectsService;
 
 import java.util.List;
 

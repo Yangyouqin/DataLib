@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.mj.datashow.utils.ToastUtil;
 import com.yyq.datalib.javaBeans.Location;
-import com.yyq.datalib.service.ILocationService;
 
 import java.util.List;
 

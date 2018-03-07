@@ -8,17 +8,21 @@ import cn.bmob.v3.datatype.BmobDate;
  * 预定场地详情
  */
 
-public class OrdersPlace extends BmobObject {
+public class Orders extends BmobObject {
 
-    private MyUser myUser;
+    private MyUser user;
 
-    private String placeId;
+    //场地、培训、比赛的id
+    private String typeId;
+
+    //// 0  表示场地，1 表示培训， 2 表示比赛
+    private int type;
     /**
      * 订单金额
      */
     private double payment;
     /**
-     * 订单状态 1 待付款 2 待使用 3 待评论 4 售后  5 退款 6 退款成功  7 交易关闭
+     * 1 下单（待付款） 2 付款（待使用） 3 使用（待评论） 4 售后  5 申请退款 6 退款（退款成功）  7 交易关闭，
      */
     private int oderState;
 
@@ -28,26 +32,39 @@ public class OrdersPlace extends BmobObject {
     //商家盈利
     private double profit;
 
-    //场地租用开始时间
+    //场地租用开始时间（如果是培训和比赛的话，是直接获取培训信息的时间，不需要自己选择）
     private BmobDate startTime;
 
-    //场地租用结束时间
+    //场地租用结束时间（如果是培训和比赛的话，是直接获取培训信息的时间，不需要自己选择）
     private BmobDate endTime;
 
-    public MyUser getMyUser() {
-        return myUser;
+    public Orders() {
     }
 
-    public void setMyUser(MyUser myUser) {
-        this.myUser = myUser;
+    //添加订单的构造函数
+    public Orders(String typeId, int type, double payment, int oderState, BmobDate startTime, BmobDate endTime) {
+        this.typeId = typeId;
+        this.type = type;
+        this.payment = payment;
+        this.oderState = oderState;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-    public String getPlaceId() {
-        return placeId;
+    public MyUser getUser() {
+        return user;
     }
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    public void setUser(MyUser user) {
+        this.user = user;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public double getPayment() {
@@ -96,5 +113,13 @@ public class OrdersPlace extends BmobObject {
 
     public void setEndTime(BmobDate endTime) {
         this.endTime = endTime;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

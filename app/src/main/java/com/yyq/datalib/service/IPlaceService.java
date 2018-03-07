@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.yyq.datalib.javaBeans.Place;
 
+import java.util.List;
+
 /**
  * Created by YQ on 2017/12/14.
  * 场地service
@@ -18,7 +20,7 @@ public interface IPlaceService {
     public void getPlacesByType(Context context, String type, int skip);
 
     //TODO:添加场地信息
-    public void insertPlace(Context context, Place places,String[] placeImgsUrl);
+    public void insertPlace(Context context, Place places, List<String> placeImgsUrl);
 
     //TODO:更新场地是否可利用状态
     public void updatePlace(Context context, Place oldPlace, boolean available);
